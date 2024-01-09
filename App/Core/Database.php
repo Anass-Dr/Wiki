@@ -4,16 +4,25 @@ namespace App\Core;
 
 class Database
 {
+    private static $instance;
     private $db;
 
-    public static function connect()
+    private function __construct()
     {
-        self::$db = new \PDO("mysql:host={$_ENV['HOST']};user={$_ENV['USER']};password={$_ENV['PASSWORD']};dbname={$_ENV['DB_NAME']}");
-        return self::$db;
+        $this->db = new \PDO("mysql:host={$_ENV['HOST']};user={$_ENV['USER']};password={$_ENV['PASSWORD']};dbname={$_ENV['DB_NAME']}");
     }
 
-    public static function close()
+    public static function getInstance()
     {
-        self::$db = NULL;
+        if (!self::$instance) self::$instance = new self();
+
+        return self::$instance;
+    }
+    public function connect()
+    {
+        return $this->db;
+    }
+    private function __clone()
+    {
     }
 }
