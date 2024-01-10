@@ -10,6 +10,7 @@ class Database
     private function __construct()
     {
         $this->db = new \PDO("mysql:host={$_ENV['HOST']};user={$_ENV['USER']};password={$_ENV['PASSWORD']};dbname={$_ENV['DB_NAME']}");
+        $this->db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
     }
 
     public static function getInstance()
