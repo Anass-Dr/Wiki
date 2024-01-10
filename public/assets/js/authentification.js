@@ -55,7 +55,7 @@ async function sendData(path, data) {
     body: JSON.stringify(data),
   });
   const res = await req.json();
-  console.log(res);
+  if (res.msg == "ok" && path == "/register") window.location.href = "/login";
 }
 
 // Get Form Data :
