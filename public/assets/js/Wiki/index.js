@@ -6,8 +6,8 @@ const renderWikiArticle = (obj = {}) =>
   `<wiki-article 
         title=${obj.title} 
         description=${obj.content} 
-        author=${obj.username} 
-        category=${obj.cat_name} 
+        author=${obj.author} 
+        category=${obj.category} 
         img=${obj.img} 
         date=${obj.createdAt}
     ></wiki-article>`;

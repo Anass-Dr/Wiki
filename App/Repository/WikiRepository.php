@@ -11,7 +11,7 @@ class WikiRepository extends Repository
 
     public function getWikisJoined()
     {
-        $query = "SELECT w.*, u.username, c.cat_name FROM wikis w NATURAL JOIN users u NATURAL JOIN categories c";
+        $query = "SELECT w.*, u.username, c.category_name FROM wikis w NATURAL JOIN users u NATURAL JOIN categories c";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll();

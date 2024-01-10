@@ -57,10 +57,11 @@ class Repository
         foreach ($data as $item) $placeholders[] = '?';
         $placeholders = implode(", ", $placeholders);
 
+
         try {
             $query = "INSERT INTO $this->tableName VALUES($placeholders)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data]);
+            $stmt->execute($data);
             return 'ok';
         } catch (\Exception $e) {
             return "erro message: $e";

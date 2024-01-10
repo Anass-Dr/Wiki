@@ -23,11 +23,11 @@ class User
     {
         $this->email = $value;
     }
-    public function setUser_Pwd($value)
+    public function setPassword($value)
     {
         $this->password = $value;
     }
-    public function setUser_Role($value)
+    public function setRole($value)
     {
         $this->role = $value;
     }
