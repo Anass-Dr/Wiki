@@ -13,6 +13,10 @@
     <h2>Register</h2>
     <form>
       <div class="user-box">
+        <input id="username" type="text" required onkeyup="inputClicked(event)" />
+        <label>Username</label>
+      </div>
+      <div class="user-box">
         <input id="email" type="email" autocomplete="off" required onkeyup="inputClicked(event)" />
         <label>Email</label>
         <small class="hidden">Please enter a valid email</small>

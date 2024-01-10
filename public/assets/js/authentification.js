@@ -5,6 +5,7 @@ const getHTMLElements = () => {
   const smallTags = document.querySelectorAll("small");
   smallTags.forEach((item) => item.classList.add("hidden"));
 
+  const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const passwordComfirm = document
@@ -12,6 +13,7 @@ const getHTMLElements = () => {
     ?.value.trim();
 
   return {
+    username,
     email,
     password,
     passwordComfirm,
@@ -72,12 +74,13 @@ function login() {
 }
 
 function register() {
-  const { smallTags, email, password, passwordComfirm } = getHTMLElements();
+  const { smallTags, username, email, password, passwordComfirm } =
+    getHTMLElements();
 
   const result = validateForm(email, password, passwordComfirm);
 
   if (result.nb == 0) {
-    sendData("/register", { email, password });
+    sendData("/register", { username, email, password });
   } else {
     result.err.forEach((item, indx) => {
       if (item) smallTags[indx].classList.remove("hidden");
