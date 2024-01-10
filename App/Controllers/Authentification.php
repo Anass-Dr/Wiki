@@ -28,7 +28,7 @@ class Authentification extends Controller
         extract($data);
         $password = password_hash($password, PASSWORD_DEFAULT);
         $obj = new \App\Repository\UserRepository();
-        $result = $obj->add(['NULL', $username, $email, $password]);
+        $result = $obj->add([NULL, $username, $email, $password, "Author"]);
         echo json_encode(["msg" => $result]);
     }
 }
