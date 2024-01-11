@@ -34,6 +34,26 @@ class Repository
         return $items;
     }
 
+    public function fetchOne($conditions)
+    {
+        $values = [];
+        $query = "SELECT * FROM $this->tableName WHERE";
+        foreach ($conditions as $key => $value) {
+            $values[] = $value[1];
+            $query .= " $value[0] = ? ";
+            $query .= $key == count($conditions) - 1 ? '' : ' AND ';
+        }
+
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->execute($values);
+            $results = $stmt->fetchAll();
+            return $this->generateObj($results);
+        } catch (\Exception $e) {
+            return "erro message: $e";
+        }
+    }
+
     public function fetchAll($conditions = [])
     {
         $query = "SELECT * FROM $this->tableName";
