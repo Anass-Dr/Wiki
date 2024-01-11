@@ -1,11 +1,14 @@
 "use strict";
 
+const toast = new bootstrap.Toast(document.getElementById("info-toast"));
+const toastBody = document.querySelector(".toast-body");
+
 // GET HTML ELEMENTS :
 const getHTMLElements = () => {
   const smallTags = document.querySelectorAll("small");
   smallTags.forEach((item) => item.classList.add("hidden"));
 
-  const username = document.getElementById("username").value.trim();
+  const username = document.getElementById("username")?.value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const passwordComfirm = document
@@ -55,7 +58,12 @@ async function sendData(path, data) {
     body: JSON.stringify(data),
   });
   const res = await req.json();
-  if (res.msg == "ok" && path == "/register") window.location.href = "/login";
+  if (res.msg === "ok")
+    window.location.href = path === "/register" ? "/login" : "/";
+  else {
+    toastBody.textContent = res.msg;
+    toast.show();
+  }
 }
 
 // Get Form Data :
