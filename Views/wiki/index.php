@@ -57,8 +57,9 @@
             </div>
         </div> <!-- # menu responsive container -->
         <form class="form_search" onsubmit="search(event)">
-            <div class="bg-white d-flex justify-content-center align-items-center border border-top py-4 gap-4">
-                <div style="min-width: 400px">
+            <div class="bg-white d-flex flex-column flex-sm-row justify-content-sm-center align-items-center border border-top py-4 gap-4 px-3">
+                <h4 class="d-sm-none align-self-start py-4 fs-2">Home</h4>
+                <div class="search">
                     <input class="form-control me-2 bg-light" type="search" name="keyword" placeholder="Wiki name or category ..." aria-label="Search">
                 </div>
                 <div style="min-width: 100px" class="align-self-stretch">
