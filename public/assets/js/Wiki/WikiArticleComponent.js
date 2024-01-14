@@ -7,12 +7,7 @@ template.innerHTML = `
         </div>
         <div class="post-text">
             <span class="date">07 Jun 2016</span>
-            <h2><a href="#">MAECENAS CONSECTETUR</a></h2>
-            <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam.
-                Nunc maximus arcu sit amet accumsan imperdiet. Aliquam elementum efficitur ipsum nec blandit.
-                Pellentesque posuere vitae metus sed auctor. Nullam accumsan fringilla ligula non pellentesque.
-                <a href="#"><i class="icon-arrow-right2"></i></a>
-            </p>
+            <h2><a href=""></a></h2>
         </div>
         <div class="post-info">
             <div class="post-by">Post By <a href="#">AD-Theme</a></div>
@@ -36,7 +31,7 @@ class Wiki extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["img", "date", "title", "description", "author", "category"];
+    return ["img", "date", "title", "author", "category", "href"];
   }
 
   //
@@ -58,12 +53,6 @@ class Wiki extends HTMLElement {
   set title(value) {
     this.setAttribute("title", value);
   }
-  get description() {
-    return this.getAttribute("description");
-  }
-  set description(value) {
-    this.setAttribute("description", value);
-  }
   get author() {
     return this.getAttribute("author");
   }
@@ -75,6 +64,12 @@ class Wiki extends HTMLElement {
   }
   set category(value) {
     this.setAttribute("category", value);
+  }
+  get href() {
+    return this.getAttribute("href");
+  }
+  set href(value) {
+    this.setAttribute("href", value);
   }
 
   //
@@ -89,14 +84,14 @@ class Wiki extends HTMLElement {
       case "title":
         this.querySelector("h2 a").textContent = newVal;
         break;
-      case "description":
-        this.querySelector("p.text").textContent = newVal;
-        break;
       case "author":
         this.querySelector(".post-by a").textContent = newVal;
         break;
       case "category":
         this.querySelector(".category a").textContent = newVal;
+        break;
+      case "href":
+        this.querySelector("h2 a").href = newVal;
         break;
     }
   }

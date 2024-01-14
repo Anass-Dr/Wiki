@@ -1,9 +1,17 @@
 const template = document.createElement("template");
 template.innerHTML = `
+    <style>
+      .item {
+        display: flex;
+      }
+      .item img {
+        max-width: 100px;
+      }
+    </style>
     <div style="margin-top: 25px" class="item">
         <img src="assets/img/latest-posts-1.jpg" alt="post 1" class="post-image">
         <div class="info-post">
-            <h5><a href="#">MAECENAS <br> CONSECTETUR</a></h5>
+            <h5><a href=""></a></h5>
             <span class="date">07 JUNE 2016</span>
         </div>
         <div class="clearfix"></div>
@@ -18,7 +26,7 @@ class WikiPostComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["img", "title", "date"];
+    return ["img", "title", "date", "href"];
   }
 
   //
@@ -40,6 +48,12 @@ class WikiPostComponent extends HTMLElement {
   set date(value) {
     return this.setAttribute("date", value);
   }
+  get href() {
+    return this.getAttribute("href");
+  }
+  set href(value) {
+    return this.setAttribute("href", value);
+  }
 
   //
   attributeChangedCallback(attrName, oldVal, newVal) {
@@ -52,6 +66,9 @@ class WikiPostComponent extends HTMLElement {
         break;
       case "date":
         this.querySelector(".date").textContent = newVal;
+        break;
+      case "href":
+        this.querySelector("h5 a").href = newVal;
         break;
     }
   }

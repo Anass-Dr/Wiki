@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="en">
 
-<!-- Mirrored from themes.ad-theme.com/html/tada/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Jan 2024 14:39:43 GMT -->
-
 <head>
     <meta charset="utf-8">
-    <title>Tada & Blog - Personal Blog HTML Theme</title>
+    <title>Wiki</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="assets/assets/img/favicon.png" />
     <!-- STYLES -->
@@ -19,51 +17,28 @@
     <link href='https://fonts.googleapis.com/css?family=Sarina' rel='stylesheet' type='text/css'>
     <script src="assets/js/Wiki/WikiArticleComponent.js" type="module"></script>
     <script src="assets/js/Wiki/WikiPostComponent.js" type="module"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-    <!--******************************************************************************************************************************************
-    ****************************************************************** PRELOADER ********************************************************************
-    *******************************************************************************************************************************************-->
-
-
-    <div id="preloader-container">
-        <div id="preloader-wrap">
-            <div id="preloader"></div>
-        </div>
-    </div>
-
-    <!--******************************************************************************************************************************************
-    ****************************************************************** HEADER ********************************************************************
-    *******************************************************************************************************************************************-->
-
     <header class="tada-container">
-
-        <!-- LOGO -->
-
-        <div class="logo-container">
-            <a href="index-2.html"><img src="assets/img/logo.png" alt="logo"></a>
-            <div class="tada-social">
-                <a href="#"><i class="icon-facebook5"></i></a>
-                <a href="#"><i class="icon-twitter4"></i></a>
-                <a href="#"><i class="icon-google-plus"></i></a>
-                <a href="#"><i class="icon-vimeo4"></i></a>
-                <a href="#"><i class="icon-linkedin2"></i></a>
-            </div>
-        </div>
-
         <!-- MENU DESKTOP -->
 
         <nav class="menu-desktop menu-sticky">
 
             <ul class="tada-menu">
-                <li><a href="#" class="active">HOME</a>
+                <li><a href="/" class="active">HOME</a>
                 </li>
                 <li><a href="/about">ABOUT US</a></li>
                 <li><a href="/contact">CONTACT</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
+                <?php if ($_SESSION["user_id"]) : ?>
+                    <li><a href="/logout">Logout</a></li>
+                <?php else : ?>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                <?php endif ?>
             </ul>
 
         </nav>
@@ -82,65 +57,29 @@
                 </ul>
             </div>
         </div> <!-- # menu responsive container -->
-
-
-        <!-- SEARCH -->
-
-        <div class="tada-search">
-            <form>
-                <div class="form-group-search">
-                    <input type="search" class="search-field" placeholder="Search and hit enter...">
-                    <button type="submit" class="search-btn"><i class="icon-search4"></i></button>
+        <form class="form_search" onsubmit="search(event)">
+            <div class="bg-white d-flex justify-content-center align-items-center border border-top py-4 gap-4">
+                <div style="min-width: 400px">
+                    <input class="form-control me-2 bg-light" type="search" name="keyword" placeholder="Wiki name or category ..." aria-label="Search">
                 </div>
-            </form>
-        </div>
-
-        <!-- SLIDER -->
-
-        <div class="tada-slider">
-            <ul id="tada-slider">
-                <li>
-                    <img src="assets/img/image-slider-1.jpg" alt="image slider 1">
-                    <div class="pattern"></div>
-                    <div class="tada-text-container">
-                        <h1>AENEAN AC DIAM</h1>
-                        <h2>VIVAMUS <span class="main-color">TINCIDUNT</span> FERMENTUM</h2>
-                        <span class="button"><a href="#">TEXT BUTTON</a></span>
-                    </div>
-                </li>
-                <li>
-                    <img src="assets/img/image-slider-2.jpg" alt="image slider 2">
-                    <div class="pattern"></div>
-                    <div class="tada-text-container">
-                        <h1>MAECENAS CONSECTETUR</h1>
-                        <h2>Lorem <span class="main-color">ipsum dolor</span> sit amet</h2>
-                        <span class="button"><a href="#">READ ME</a></span>
-                    </div>
-                </li>
-                <li>
-                    <img src="assets/img/image-slider-3.jpg" alt="image slider 3">
-                    <div class="pattern"></div>
-                    <div class="tada-text-container">
-                        <h1>AENEAN AC DIAM</h1>
-                        <h2>VIVAMUS <span class="main-color">TINCIDUNT</span> FERMENTUM</h2>
-                        <span class="button"><a href="#">TEXT BUTTON</a></span>
-                    </div>
-                </li>
-                <li>
-                    <img src="assets/img/image-slider-4.jpg" alt="image slider 4">
-                    <div class="pattern"></div>
-                    <div class="tada-text-container">
-                        <h1>AENEAN AC DIAM</h1>
-                        <h2>VIVAMUS <span class="main-color">TINCIDUNT</span> FERMENTUM</h2>
-                        <span class="button"><a href="#">TEXT BUTTON</a></span>
-                    </div>
-                </li>
-            </ul>
-
-        </div>
-
-        <!-- END SLIDER -->
-
+                <div style="min-width: 100px" class="align-self-stretch">
+                    <select class="form-select h-100" name="type" required>
+                        <option value="wiki">Wikis</option>
+                        <option value="tag">Tags</option>
+                        <option value="category">Categories</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary align-self-stretch">Search</button>
+            </div>
+            <div class="search_results hidden">
+                <ul class="list-group px-4 py-4">
+                    <li class="list-group-item list-group-item-success">An item</li>
+                    <li class="list-group-item list-group-item-success">An item</li>
+                    <li class="list-group-item list-group-item-success">An item</li>
+                    <li class="list-group-item list-group-item-success">An item</li>
+                </ul>
+            </div>
+        </form>
 
     </header><!--END HEADER-->
 
@@ -154,14 +93,6 @@
 
         <div class="content col-xs-8">
             <div id="articles"></div>
-
-
-            <div class="navigation">
-                <a href="#" class="prev"><i class="icon-arrow-left8"></i> Previous Posts</a>
-                <a href="#" class="next">Next Posts <i class="icon-arrow-right8"></i></a>
-                <div class="clearfix"></div>
-            </div>
-
         </div>
 
         <!-- *** SIDEBAR *** -->
@@ -218,7 +149,7 @@
         <!-- FOOTER BOTTOM -->
 
         <div class="footer-bottom">
-            <span class="copyright">Theme Created by <a href="#">AD-Theme</a> Copyright © 2016. All Rights Reserved</span>
+            <span class="copyright">Theme Created by Anass Drissi © 2024. All Rights Reserved</span>
             <span class="backtotop">TOP <i class="icon-arrow-up7"></i></span>
             <div class="clearfix"></div>
         </div>
@@ -235,7 +166,5 @@
     <script src="assets/js/Wiki/index.js"></script>
 
 </body>
-
-<!-- Mirrored from themes.ad-theme.com/html/tada/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Jan 2024 14:39:57 GMT -->
 
 </html>

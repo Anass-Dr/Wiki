@@ -24,6 +24,7 @@
         <label>Password</label>
         <small class="hidden">Password must be between 7 to 15 characters which contain at least one numeric digit and a special character</small>
       </div>
+      <input id="csrf" type="hidden" name="csrf_token" value="<?= \App\Middlewares\Authorization::csrf_generate() ?>">
       <div class="btns">
         <span id="submit" onclick="login()">
           <span></span>

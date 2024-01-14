@@ -6,7 +6,7 @@ class Authentification extends Controller
 {
     public static function loginHTML()
     {
-        self::render('login');
+        self::render('authentication/login');
     }
 
     public static function login()
@@ -15,29 +15,31 @@ class Authentification extends Controller
         $data = json_decode(file_get_contents("php://input"), true);
         extract($data);
 
-        $msg = '';
+        # Check CSRF Token :
+        if (\App\Middlewares\Authorization::csrf_verifiy($csrf_token)) {
+            $msg = '';
+            $obj = new \App\Repository\UserRepository();
+            $item = $obj->fetchOne([["email", $email]]);
 
-        $obj = new \App\Repository\UserRepository();
-        $items = $obj->fetchOne([["email", $email]]);
-
-        if ($items) {
-            if (password_verify($password, $items[0]->password)) {
-                $_SESSION["user_id"] = $items[0]->id;
-                $_SESSION["user_role"] = $items[0]->role;
-
-                $msg = "ok";
+            if ($item) {
+                if (password_verify($password, $item->password)) {
+                    $_SESSION["user_id"] = $item->id;
+                    $_SESSION["user_role"] = $item->role;
+                    $msg = "ok";
+                } else {
+                    $msg = "Password Incorrect";
+                }
             } else {
-                $msg = "Password Incorrect";
+                $msg = "User Not Found";
             }
-        } else {
-            $msg = "User Not Found";
-        }
-        echo json_encode(["msg" => $msg]);
+        } else $msg = "You don't have Permission!";
+
+        echo json_encode(["msg" => $msg, "previous" => $_SESSION["previous"] ?? '']);
     }
 
     public static function registerHTML()
     {
-        self::render('register');
+        self::render('authentication/register');
     }
 
     public static function register()
@@ -45,10 +47,16 @@ class Authentification extends Controller
         self::setHeaderJson();
         $data = json_decode(file_get_contents("php://input"), true);
         extract($data);
+        $msg = "";
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $obj = new \App\Repository\UserRepository();
-        $result = $obj->add([NULL, $username, $email, $password, "Author"]);
-        echo json_encode(["msg" => $result]);
+
+        # Check CSRF Token :
+        if (\App\Middlewares\Authorization::csrf_verifiy($csrf_token)) {
+            $obj = new \App\Repository\UserRepository();
+            $msg = $obj->add([NULL, $username, $email, $password, "Author"]);
+        } else $msg = "You don't have Permission!";
+
+        echo json_encode(["msg" => $msg]);
     }
 
     public static function logout()

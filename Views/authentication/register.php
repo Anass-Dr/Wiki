@@ -31,6 +31,7 @@
         <label>Comfirm Password</label>
         <small class="hidden">Password Incorrect</small>
       </div>
+      <input id="csrf" type="hidden" name="csrf_token" value="<?= \App\Middlewares\Authorization::csrf_generate() ?>">
       <div class="btns">
         <span id="submit" onclick="register()">
           <span></span>

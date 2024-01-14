@@ -7,48 +7,99 @@ class Wiki
     public $id;
     public $title;
     public $content;
-    public $createdAt;
     public $updatedAt;
     public $deletedAt;
     public $img;
     public $author;
     public $category;
+    public $category_id;
 
-    #- Setters :
-    public function setWiki_id($value)
+    public function getWiki_id()
     {
-        $this->id = $value;
+        return $this->id;
     }
-    public function setTitle($value)
+
+    public function setWiki_id($id)
     {
-        $this->title = $value;
+        $this->id = $id;
     }
-    public function setContent($value)
+
+    public function getTitle()
     {
-        $this->content = $value;
+        return $this->title;
     }
-    public function setCreated_At($value)
+
+    public function setTitle($title)
     {
-        $this->createdAt = $value;
+        $this->title = $title;
     }
-    public function setUpdated_At($value)
+
+    public function getContent()
     {
-        $this->updatedAt = $value;
+        return $this->content;
     }
-    public function setDeleted_At($value)
+
+    public function setContent($content)
     {
-        $this->deletedAt = $value;
+        $this->content = $content;
     }
-    public function setImage($value)
+
+    public function getUpdated_At()
     {
-        $this->img = $value;
+        return $this->updatedAt;
     }
-    public function setUsername($value)
+
+    public function setUpdated_At($updatedAt)
     {
-        $this->author = $value;
+        $this->updatedAt = $updatedAt;
     }
-    public function setCategory_Name($value)
+
+    public function getDeleted_At()
     {
-        $this->category = $value;
+        return $this->deletedAt;
+    }
+
+    public function setDeleted_At($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+    }
+
+    public function getImage()
+    {
+        return $this->img;
+    }
+
+    public function setImage($img)
+    {
+        $this->img = $img;
+    }
+
+    public function getUsername()
+    {
+        return $this->author;
+    }
+
+    public function setUsername($author)
+    {
+        $this->author = $author;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+    public function getCategory_id()
+    {
+        return $this->category_id;
+    }
+
+    public function setCategory_id($category_id)
+    {
+        $this->category_id = $category_id;
     }
 }

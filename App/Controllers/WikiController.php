@@ -6,7 +6,9 @@ class WikiController extends Controller
 {
     public static function index()
     {
-        self::render("wiki");
+        $obj = new \App\Repository\WikiRepository();
+        $wiki = $obj->fetchOneJoined($_GET["id"]);
+        self::render("wiki/wiki", ["wiki" => $wiki]);
     }
     public static function getAll()
     {
@@ -19,7 +21,7 @@ class WikiController extends Controller
     {
         self::setHeaderJson();
         $repository = new \App\Repository\WikiRepository();
-        $wikis = $repository->fetchLatest();
+        $wikis = $repository->fetchNewest();
         echo json_encode($wikis);
     }
 }

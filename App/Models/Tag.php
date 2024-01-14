@@ -6,14 +6,35 @@ class Tag
 {
     public $id;
     public $name;
+    public $description;
 
-    //
-    public function setTag_Id($value)
+    public function getTag_Id()
     {
-        $this->id = $value;
+        return $this->id;
     }
-    public function setTag_Name($value)
+
+    public function setTag_Id($id)
     {
-        $this->name = $value;
+        $this->id = $id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 }

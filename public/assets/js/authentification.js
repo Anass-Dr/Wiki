@@ -1,13 +1,11 @@
 "use strict";
 
-const toast = new bootstrap.Toast(document.getElementById("info-toast"));
-const toastBody = document.querySelector(".toast-body");
-
 // GET HTML ELEMENTS :
 const getHTMLElements = () => {
   const smallTags = document.querySelectorAll("small");
   smallTags.forEach((item) => item.classList.add("hidden"));
 
+  const csrf_token = document.getElementById("csrf")?.value.trim();
   const username = document.getElementById("username")?.value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -16,6 +14,7 @@ const getHTMLElements = () => {
     ?.value.trim();
 
   return {
+    csrf_token,
     username,
     email,
     password,
@@ -58,9 +57,15 @@ async function sendData(path, data) {
     body: JSON.stringify(data),
   });
   const res = await req.json();
-  if (res.msg === "ok")
-    window.location.href = path === "/register" ? "/login" : "/";
-  else {
+  if (res.msg === "ok") {
+    if (path === "/register") window.location.href = "/login";
+    else {
+      if (res.previous) window.location.href = res.previous;
+      else window.location.href = "/";
+    }
+  } else {
+    const toast = new bootstrap.Toast(document.getElementById("info-toast"));
+    const toastBody = document.querySelector(".toast-body");
     toastBody.textContent = res.msg;
     toast.show();
   }
@@ -68,12 +73,12 @@ async function sendData(path, data) {
 
 // Get Form Data :
 function login() {
-  const { smallTags, email, password } = getHTMLElements();
+  const { csrf_token, smallTags, email, password } = getHTMLElements();
 
   const result = validateForm(email, password);
 
   if (result.nb == 0) {
-    sendData("/login", { email, password });
+    sendData("/login", { csrf_token, email, password });
   } else {
     result.err.forEach((item, indx) => {
       if (item) smallTags[indx].classList.remove("hidden");
@@ -82,13 +87,13 @@ function login() {
 }
 
 function register() {
-  const { smallTags, username, email, password, passwordComfirm } =
+  const { smallTags, csrf_token, username, email, password, passwordComfirm } =
     getHTMLElements();
 
   const result = validateForm(email, password, passwordComfirm);
 
   if (result.nb == 0) {
-    sendData("/register", { username, email, password });
+    sendData("/register", { csrf_token, username, email, password });
   } else {
     result.err.forEach((item, indx) => {
       if (item) smallTags[indx].classList.remove("hidden");
