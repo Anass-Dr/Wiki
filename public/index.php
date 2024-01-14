@@ -45,7 +45,7 @@ $router->post('/admin/archive', App\Controllers\Admin\WikiController::class, 'ar
 
 ## -> Author :
 $router->get('/author', App\Controllers\Author\DashboardController::class, 'index', [Authorization::class, 'handle']);
-$router->get('/author/wikis', App\Controllers\Author\WikiController::class, 'wikiPage', [Authorization::class, 'handle']);
+$router->get('/author/wikis', App\Controllers\Author\WikiController::class, 'index', [Authorization::class, 'handle']);
 $router->get('/author/add', App\Controllers\Author\WikiController::class, 'add', [Authorization::class, 'handle']);
 $router->post('/author/add', App\Controllers\Author\WikiController::class, 'add', [Authorization::class, 'handle']);
 $router->get('/author/update', App\Controllers\Author\WikiController::class, 'updateHTML', [Authorization::class, 'handle']);

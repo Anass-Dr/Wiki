@@ -22,6 +22,8 @@ class Authorization
             header("location:/login");
         } else if ($_SESSION["user_role"] === "Author" && strpos($request, "admin")) {
             header("location:/author");
+        } else if ($_SESSION["user_role"] === "Admin" && strpos($request, "author")) {
+            header("location:/admin");
         } else {
             $controller = $next[0];
             $action = $next[1];

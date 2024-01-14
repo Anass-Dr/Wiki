@@ -201,3 +201,9 @@ small {
 .hidden {
   display: none;
 }
+
+@media screen and (max-width: 500px) {
+  .login-box {
+    width: auto;
+  }
+}

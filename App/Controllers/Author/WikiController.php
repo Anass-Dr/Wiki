@@ -16,7 +16,7 @@ class WikiController extends Controller
         return move_uploaded_file($_FILES["file_img"]["tmp_name"], $fileDir);
     }
 
-    public static function wikiPage()
+    public static function index()
     {
         # Get all Wikis :
         $wikiObj = new WikiRepository();
@@ -85,9 +85,16 @@ class WikiController extends Controller
         $wikiTagsObj = new WikiTagsRepository();
         $result1 = '';
 
-        if (isset($file_img)) {
+        if (isset($_FILES["file_img"])) {
             if (self::uploadImg()) {
-                $result1 = $wikiObj->update(["data" => [["title", $name], ["category_id", $category], ["content", $content], ["image", $_FILES["file_img"]["name"]]], "conditions" => ["user_id", (int)$_SESSION["user_id"]]]);
+                $result1 = $wikiObj->update([
+                    "data" => [
+                        ["title", $name], ["category_id", $category], ["content", $content], ["image", $_FILES["file_img"]["name"]]
+                    ],
+                    "conditions" => [
+                        ["wiki_id", (int)$wiki_id]
+                    ]
+                ]);
             }
         } else {
             $result1 = $wikiObj->update([
@@ -100,12 +107,12 @@ class WikiController extends Controller
             ]);
         }
         if ($result1) {
-            if ($wikiTagsObj->delete([["wiki_id", $wiki_id]])) {
+            if ($result2 = $wikiTagsObj->delete(["wiki_id", $wiki_id])) {
                 foreach ($tags as $tag) {
                     $wikiTagsObj->add([$tag, $wiki_id]);
                 }
                 header("location:/author/wikis");
-            };
+            } else echo $result2;
         } else echo $result1;
     }
 

@@ -39,7 +39,7 @@ class Router
                 $controller::$action();
             }
         } else {
-            echo "Not Found";
+            require __DIR__ . '/../../Views/404.php';
         }
     }
 }

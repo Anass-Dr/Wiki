@@ -49,25 +49,6 @@ class Repository
         return $items;
     }
 
-<<<<<<< Updated upstream
-    public function fetchOne($conditions)
-    {
-        $values = [];
-        $query = "SELECT * FROM $this->tableName WHERE";
-        foreach ($conditions as $key => $value) {
-            $values[] = $value[1];
-            $query .= " $value[0] = ? ";
-            $query .= $key == count($conditions) - 1 ? '' : ' AND ';
-        }
-
-        try {
-            $stmt = $this->db->prepare($query);
-            $stmt->execute($values);
-            $results = $stmt->fetchAll();
-            return $this->generateObj($results);
-=======
-<<<<<<< Updated upstream
-=======
     public function fetchOne($conditions)
     {
         extract($this->generateQuery($conditions));
@@ -76,16 +57,11 @@ class Repository
             $stmt->execute($params);
             $results = $stmt->fetchAll();
             return $this->generateObj($results)[0];
->>>>>>> Stashed changes
         } catch (\Exception $e) {
             return "erro message: $e";
         }
     }
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     public function fetchAll($conditions = [])
     {
         extract($this->generateQuery($conditions));
@@ -147,7 +123,7 @@ class Repository
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM $this->tableName WHERE $condition[0] = ?");
-            $stmt->execute([$condition[1]]);
+            $stmt->execute([(int)$condition[1]]);
             return 'ok';
         } catch (\Exception $e) {
             return "erro message: $e";
