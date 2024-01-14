@@ -10,10 +10,33 @@ use App\Repository\CategoryRepository;
 
 class WikiController extends Controller
 {
-    public static function uploadImg()
+    public static function uploadImage()
     {
-        $fileDir = $_SERVER["DOCUMENT_ROOT"] . "/assets/img/" . $_FILES["file_img"]["name"];
-        return move_uploaded_file($_FILES["file_img"]["tmp_name"], $fileDir);
+        $maxFileSize = 5242880;
+        $allowedFormats = ['jpg', 'jpeg', 'png', 'gif'];
+        $file = $_FILES["file_img"];
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        # Validate file format
+        if (!in_array($fileExtension, $allowedFormats)) {
+            return ['success' => false, 'msg' => 'Invalid file format.'];
+        }
+
+        # Validate file size
+        if ($file['size'] > $maxFileSize) {
+            return ['success' => false, 'msg' => 'File size exceeds the allowed limit.'];
+        }
+
+        # Generate a unique filename
+        $uniqueFilename = uniqid('image_') . '.' . $fileExtension;
+        $destination = $_SERVER["DOCUMENT_ROOT"] . "/assets/img/" . $uniqueFilename;
+
+        # Move the uploaded file to the destination folder
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            return ['success' => true, 'msg' => 'File uploaded successfully.', 'filename' => $uniqueFilename];
+        } else {
+            return ['success' => false, 'msg' => 'Error moving file to destination.'];
+        }
     }
 
     public static function index()
@@ -44,10 +67,11 @@ class WikiController extends Controller
         } else {
             extract($_POST);
 
-            if (self::uploadImg()) {
+            $uploadResult = self::uploadImage();
+            if ($uploadResult["success"]) {
                 $wikiObj = new WikiRepository();
                 $wikiTagsObj = new WikiTagsRepository();
-                $result1 = $wikiObj->add([$name, $content, $_FILES["file_img"]["name"], $_SESSION['user_id'], $category], ["title", "content", "image", "user_id", "category_id"]);
+                $result1 = $wikiObj->add([$name, $content, $uploadResult["filename"], $_SESSION['user_id'], $category], ["title", "content", "image", "user_id", "category_id"]);
                 $result2 = $wikiTagsObj->addToLast($tags);
 
                 if ($result1 && $result2) header("location:/author/wikis");
@@ -86,10 +110,11 @@ class WikiController extends Controller
         $result1 = '';
 
         if (isset($_FILES["file_img"])) {
-            if (self::uploadImg()) {
+            $uploadResult = self::uploadImage();
+            if ($uploadResult["success"]) {
                 $result1 = $wikiObj->update([
                     "data" => [
-                        ["title", $name], ["category_id", $category], ["content", $content], ["image", $_FILES["file_img"]["name"]]
+                        ["title", $name], ["category_id", $category], ["content", $content], ["image", $uploadResult["filename"]]
                     ],
                     "conditions" => [
                         ["wiki_id", (int)$wiki_id]
