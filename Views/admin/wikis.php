@@ -227,17 +227,17 @@
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div>
-                                                            <img src="../assets/img/<?= $wiki->img ?>" class="avatar avatar-sm me-3" alt="user1">
+                                                            <img src="../assets/img/<?= htmlspecialchars($wiki->img) ?>" class="avatar avatar-sm me-3" alt="user1">
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><?= $wiki->title ?></td>
-                                                <td><?= $wiki->updatedAt ?></td>
-                                                <td><?= $wiki->category ?></td>
-                                                <td><?= $wiki->deletedAt ? 'Archived' : 'Active' ?></td>
+                                                <td><?= htmlspecialchars($wiki->title) ?></td>
+                                                <td><?= htmlspecialchars($wiki->updatedAt) ?></td>
+                                                <td><?= htmlspecialchars($wiki->category) ?></td>
+                                                <td><?= htmlspecialchars($wiki->deletedAt) ? 'Archived' : 'Active' ?></td>
                                                 <td>
                                                     <?php foreach ($tags as $key => $value) : ?>
-                                                        <?php if ($wiki->id == $key) : ?>
+                                                        <?php if (htmlspecialchars($wiki->id) == $key) : ?>
                                                             <?php foreach ($value as $tag) : ?>
                                                                 <span class="badge badge-sm bg-gradient-warning"><?= $tag->tag_name ?></span>
                                                             <?php endforeach ?>
@@ -246,7 +246,7 @@
                                                 </td>
                                                 <td class="align-middle text-center text-sm">
                                                     <form action="/admin/archive" method="post">
-                                                        <input type="hidden" name="id" value="<?= $wiki->id ?>">
+                                                        <input type="hidden" name="id" value="<?= htmlspecialchars($wiki->id) ?>">
                                                         <button type="submit" name="archive" class="badge badge-sm bg-gradient-danger border-0">Archive</button>
                                                         <button type="submit" name="undo" class="badge badge-sm bg-gradient-info border-0">Undo</button>
                                                     </form>

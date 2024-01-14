@@ -33,11 +33,12 @@ class TableRender
                 $property = strtolower(str_replace("get", "", $getter));
                 if (!in_array(ucfirst($property), $conditions)) continue;
 
-                $table .= "<td><p class='text-xs font-weight-bold mb-0'>{$obj->$getter()}</p></td>";
+                $value = htmlspecialchars($obj->$getter());
+                $table .= "<td><p class='text-xs font-weight-bold mb-0'>$value</p></td>";
             endforeach;
 
             $getId = $getters[0];
-            $id = $obj->$getId();
+            $id = htmlspecialchars($obj->$getId());
             $table .= "<input type='hidden' class='id' name='id' value='$id' />";
             if ($type) :
                 $table .= "<input type='hidden' class='type' name='type' value='$type' />";
