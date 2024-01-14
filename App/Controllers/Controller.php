@@ -9,4 +9,8 @@ class Controller
         extract($data);
         require __DIR__ . "/../../Views/$view.php";
     }
+    protected static function setHeaderJson()
+    {
+        header("Content-Type:application/json");
+    }
 }
