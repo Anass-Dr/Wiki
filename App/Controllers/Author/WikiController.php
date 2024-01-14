@@ -16,7 +16,7 @@ class WikiController extends Controller
         return move_uploaded_file($_FILES["file_img"]["tmp_name"], $fileDir);
     }
 
-    public static function wikiPage()
+    public static function index()
     {
         # Get all Wikis :
         $wikiObj = new WikiRepository();
