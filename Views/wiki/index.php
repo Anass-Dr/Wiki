@@ -31,9 +31,8 @@
             <ul class="tada-menu">
                 <li><a href="/" class="active">HOME</a>
                 </li>
-                <li><a href="/about">ABOUT US</a></li>
-                <li><a href="/contact">CONTACT</a></li>
                 <?php if ($_SESSION["user_id"]) : ?>
+                    <li><a href="<?= $_SESSION["user_role"] == "Author" ? "/author" : "/admin" ?>">Dashboard</a></li>
                     <li><a href="/logout">Logout</a></li>
                 <?php else : ?>
                     <li><a href="/login">Login</a></li>

@@ -54,7 +54,7 @@ class WikiRepository extends Repository
         $columnName = substr($condition["table"], 0, 1) . "." . $condition['data'][0];
 
         try {
-            $query = "SELECT DISTINCT w.title, w.updated_at, w.deleted_at, w.image, u.username, c.name as category
+            $query = "SELECT DISTINCT w.wiki_id, w.title, w.updated_at, w.deleted_at, w.image, u.username, c.name as category
             FROM wikis w
             JOIN wikis_tags wt ON w.wiki_id = wt.wiki_id
             JOIN tags t ON wt.tag_id = t.tag_id
