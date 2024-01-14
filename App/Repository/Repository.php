@@ -123,7 +123,7 @@ class Repository
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM $this->tableName WHERE $condition[0] = ?");
-            $stmt->execute([$condition[1]]);
+            $stmt->execute([(int)$condition[1]]);
             return 'ok';
         } catch (\Exception $e) {
             return "erro message: $e";
